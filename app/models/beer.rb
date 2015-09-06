@@ -1,3 +1,3 @@
-class State < ActiveRecord:Base
+class Beer < ActiveRecord::Base
   belongs_to :state
 end
