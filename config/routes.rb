@@ -2,6 +2,12 @@ Rails.application.routes.draw do
 
   resources :states, :beers
 
+  get '/states' => 'states#index'
+  get'/states/:id' => 'states#show'
+
+  get '/beers' => 'beers#index'
+  get '/beers/:id' => 'beers#show'
+
 end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
