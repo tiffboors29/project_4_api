@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get '/beers' => 'beers#index'
   get '/beers/:id' => 'beers#show'
   post '/beers' => 'beers#create'
-  patch '/beers/:id' => 'beers#update'
+  put '/beers/:id' => 'beers#update'
 
   get '/brewerydb/test' => 'brewerydb#test'
 
