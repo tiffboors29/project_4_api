@@ -1,6 +1,6 @@
 class BeersController < ApplicationController
 
-  before_action :authorize, only: [:index, :show, :create, :update]
+  # before_action :authorize, only: [:index, :show, :create, :update]
 
   def index
     render json: Beer.all
@@ -31,7 +31,7 @@ class BeersController < ApplicationController
 private
 
   def beer_params
-    params.require(:beer).permit(:title, :votes, :brewery, :image, :type)
+    params.require(:beer).permit(:title, :votes, :brewery, :image, :kind)
   end
 
   def vote_params
