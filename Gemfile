@@ -36,6 +36,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # BreweryDB API libray gem
 gem 'brewery_db'
 
+gem 'httparty'
+
+gem 'brewerydb', '~> 0.0.4'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
