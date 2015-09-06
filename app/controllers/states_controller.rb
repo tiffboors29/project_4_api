@@ -1,5 +1,6 @@
 class StatesController < ApplicationController
 
+  before_action :authorize, only: [:index, :show]
   def index
     render json: State.all
   end

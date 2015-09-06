@@ -1,42 +1,41 @@
 class BeersController < ApplicationController
 
+  before_action :authorize, only: [:index, :show, :create, :update]
+
   def index
-    # index the top 10 voted beers for the all states
     render json: Beer.all
   end
 
   def show
-    # show the top 10 voted beers for the chosen state
-    render json: Beer.find()
+    render json: Beer.find(params[:id])
   end
 
   def create
-    # when beer receives first vote, add it to beer table
-    voted_beer = Beer.new(beer_params)
-    if voted_beer.save
-      render json: voted_beer
+    beer = Beer.new(beer_params)
+    if beer.save
+      render json: beer
     else
-      render json: voted_beer.errors, status: :unprocessable_entity
+      render json: beer.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    # update votes if beer in table receives another vote
-    voted_beer = Beer.find(params[:id])
-    if voted_beer.update!(vote_params)
-      render json: voted_beer
+    beer = Beer.find(params[:id])
+    if beer.update!(vote_params)
+      render json: beer
     else
-      render json: voted_beer.errors, status: :unprocessable_entity
+      render json: beer.errors, status: :unprocessable_entity
     end
   end
 
 private
+
   def beer_params
-    params.require(:voted_beer).permit(:title, :brewery, :type, :image, :votes)
+    params.require(:beer).permit(:title, :votes, :brewery, :image, :type)
   end
 
   def vote_params
-    params.require(params.require(:voted_beer).permit(:votes))
+    params.require(:beer).permit(:votes)
   end
 
 end
