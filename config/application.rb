@@ -20,6 +20,19 @@ module Project4Api
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+
+
+  # Add Rack::Cors as middleware
+    # WARNING: Allow ALL cross site scripting
+    config.middleware.use Rack::Cors do
+      allow do
+        # WARNING: Allow ALL cross site scripting from ALL domains
+        origins '*'
+        # WARNING: Allow ALL HTTP method
+        resource '*', :headers => :any, :methods => [:get, :post,:delete, :options]
+      end
+    end
+
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
   end
