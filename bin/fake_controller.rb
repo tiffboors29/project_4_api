@@ -1,24 +1,3 @@
-## could put in application controller with getter for all controller's to use. or.... do this
-
-# class FooController
-#   before_action :set_brewery_db
-
-#   attr_reader :brewery_db
-
-#   def show
-#     brewery_db.locations......
-#   end
-
-# private
-#   def set_brewery_db
-#     @brewery_db = BreweryDB::Client.new do |config|
-#       config.api_key = ENV['API_KEY']
-#     end
-#   end
-# end
-
-# -----------------------------------------------
-
 brewery_db = BreweryDB::Client.new do |config|
   config.api_key = ENV['API_KEY']
 end
@@ -70,6 +49,7 @@ state_arr.each do |b|
     content['name'] = i.name_display
     content['id'] = i.id
     content['abv'] = i.abv
+    content['breweryId'] = b
     content['ibu'] = i.ibu
     content['isOrganic'] = i.isOrganic
     content['description'] = i.description
