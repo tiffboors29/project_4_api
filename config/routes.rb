@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   post '/beers' => 'beers#create'
   put '/beers/:id' => 'beers#update'
 
-  get '/brewerydb/test' => 'brewerydb#test'
 
 end
   # The priority is based upon order of creation: first created -> highest priority.
