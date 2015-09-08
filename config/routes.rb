@@ -3,13 +3,17 @@ Rails.application.routes.draw do
   resources :states, :beers, :brewerydb
 
   get '/states' => 'states#index'
-  get'/states/:id' => 'states#show'
+  get '/states/:id' => 'states#show'
 
   get '/beers' => 'beers#index'
   get '/beers/:id' => 'beers#show'
   post '/beers' => 'beers#create'
   put '/beers/:id' => 'beers#update'
 
+  get '/brewerydb/state/:state' => 'brewerydb#state_breweries'
+  get '/brewerydb/city/:city' => 'brewerydb#city_breweries'
+  get '/brewerydb/state/:state/beers' => 'brewerydb#state_beers'
+  get '/brewerydb/city/:city/beers' => 'brewerydb#city_beers'
 
 end
   # The priority is based upon order of creation: first created -> highest priority.
