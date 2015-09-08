@@ -92,6 +92,27 @@ class BrewerydbController < ApplicationController
     render json: beer_hash
   end
 
+  def create_voted_beer
+    beer = Beer.new(beer_params)
+    display_beer = brewery_db.beers.find(params[:beerId])
+
+    if beer.save
+      render json: display_beer
+    else
+      render json: beer.errors, status: :unprocessable_entity
+    end
+  end
+
+  def test # need to get breweryId too
+    display_beer = brewery_db.beers.find(params[:id])
+    # new_beer = {}
+    # new_beer["beer_id"] = display_beer.id
+    # new_beer["brewery_id"] = display_beer.id
+    # new_beer["votes"] = display_beer.id
+    render json: display_beer
+  end
+
+
 private
 
   def set_brewery_db
@@ -100,4 +121,7 @@ private
     end
   end
 
+  def beer_params
+    params.require(:beer).permit(:brewery_id, :beer_id, :votes, :state_id)
+  end
 end
