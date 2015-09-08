@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get '/brewerydb/state/:state/beers' => 'brewerydb#state_beers'
   get '/brewerydb/city/:city/beers' => 'brewerydb#city_beers'
 
+  get '/brewerydb/test/:id' => 'brewerydb#test'
+
 
 end
   # The priority is based upon order of creation: first created -> highest priority.
