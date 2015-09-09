@@ -10,7 +10,11 @@ class BrewerydbController < ApplicationController
     state_hash = {}
 
     state_breweries.each do |b|
-      state_hash[b.breweryId] = b.brewery.name
+      content = {}
+      content['name'] = b.brewery.name
+      content['id'] = b.breweryId
+      content['website'] = b.brewery.website
+      state_hash[b.breweryId] = content
     end
 
     render json: state_hash
@@ -23,7 +27,11 @@ class BrewerydbController < ApplicationController
     city_hash = {}
 
     city_breweries.each do |b|
-      city_hash[b.breweryId] = b.brewery.name
+      content = {}
+      content['name'] = b.brewery.name
+      content['id'] = b.breweryId
+      content['website'] = b.brewery.website
+      city_hash[b.breweryId] = content
     end
 
     render json: city_hash
@@ -43,7 +51,6 @@ class BrewerydbController < ApplicationController
     # adds info for each beer to beer_hash with id as key
     state_arr.each do |b|
       beers = brewery_db.brewery(b).beers
-
       beers.each do |i|
         beer_hash[i.id] = {}
         content = {}
@@ -93,8 +100,40 @@ class BrewerydbController < ApplicationController
   end
 
   def create_voted_beer
-    beer = Beer.new(beer_params)
-    display_beer = brewery_db.beers.find(params[:beerId])
+    response = HTTParty.get('http://api.brewerydb.com/v2/beer/' + params[:beerId] + '?withBreweries=Y&key=' + ENV['API_KEY'] + '&format=json')
+
+    # turns response data into hash
+    data = response.parsed_response["data"]
+
+    # need to find state_id from states table using state:
+    # data['breweries'].first['locations'].first['region']
+    state_id = State.where('name' == data['breweries'].first['locations'].first['region'])
+
+    beer = Beer.new({
+      title: data['nameDisplay'],
+      beer_id: data['id'],
+      brewery_id: data['breweries'].first['id'],
+      state_id: state_id, #FIX ME (SEE ABOVE)
+      votes: 1
+    })
+
+    display_beer = {}
+    content = {}
+
+    content['votes'] = 1
+    content['beer_id'] = data['id']
+    content['name'] = data['nameDisplay']
+    content['abv'] = data['abv']
+    content['ibu'] = data['ibu']
+    content['isOrganic'] = data['isOrganic']
+    content['description'] = data['style']['description']
+    content['image'] = data['labels']['medium']
+    content['brewery_id'] = data['breweries'].first['id']
+    content['brewery_name'] = data['breweries'].first['name']
+    content['brewery_website'] = data['breweries'].first['website']
+    content['brewery_image'] = data['breweries'].first['images']['medium']
+    content['state'] = data['breweries'].first['locations'].first['region']
+    display_beer['beer_id'] = content
 
     if beer.save
       render json: display_beer
@@ -103,13 +142,29 @@ class BrewerydbController < ApplicationController
     end
   end
 
-  def test # need to get breweryId too
-    display_beer = brewery_db.beers.find(params[:id])
-    # new_beer = {}
-    # new_beer["beer_id"] = display_beer.id
-    # new_beer["brewery_id"] = display_beer.id
-    # new_beer["votes"] = display_beer.id
-    render json: display_beer
+  def test
+    response = HTTParty.get('http://api.brewerydb.com/v2/beer/' + params[:beerId] + '?withBreweries=Y&key=' + ENV['API_KEY'] + '&format=json')
+    # turns response data into hash
+    data = response.parsed_response['data']
+    beer_hash = {}
+    content = {}
+
+    content['beer_id'] = data['id']
+    content['name'] = data['nameDisplay']
+    content['abv'] = data['abv']
+    content['ibu'] = data['ibu']
+    content['isOrganic'] = data['isOrganic']
+    content['description'] = data['style']['description']
+    content['image'] = data['labels']['medium']
+    content['brewery_id'] = data['breweries'].first['id']
+    content['brewery_name'] = data['breweries'].first['name']
+    content['brewery_website'] = data['breweries'].first['website']
+    content['brewery_image'] = data['breweries'].first['images']['medium']
+    content['state'] = data['breweries'].first['locations'].first['region']
+
+    beer_hash['beer_id'] = content
+
+    render json: beer_hash
   end
 
 
@@ -121,7 +176,7 @@ private
     end
   end
 
-  def beer_params
-    params.require(:beer).permit(:brewery_id, :beer_id, :votes, :state_id)
-  end
+  # def beer_params
+  #   params.require(:beer).permit(:brewery_id, :beer_id, :votes, :state_id)
+  # end
 end
