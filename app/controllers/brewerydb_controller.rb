@@ -10,7 +10,11 @@ class BrewerydbController < ApplicationController
     state_hash = {}
 
     state_breweries.each do |b|
-      state_hash[b.breweryId] = b.brewery.name
+      content = {}
+      content['name'] = b.brewery.name
+      content['id'] = b.breweryId
+      content['website'] = b.brewery.website
+      state_hash[b.breweryId] = content
     end
 
     render json: state_hash
@@ -23,7 +27,11 @@ class BrewerydbController < ApplicationController
     city_hash = {}
 
     city_breweries.each do |b|
-      city_hash[b.breweryId] = b.brewery.name
+      content = {}
+      content['name'] = b.brewery.name
+      content['id'] = b.breweryId
+      content['website'] = b.brewery.website
+      city_hash[b.breweryId] = content
     end
 
     render json: city_hash
@@ -43,7 +51,6 @@ class BrewerydbController < ApplicationController
     # adds info for each beer to beer_hash with id as key
     state_arr.each do |b|
       beers = brewery_db.brewery(b).beers
-
       beers.each do |i|
         beer_hash[i.id] = {}
         content = {}
