@@ -107,7 +107,7 @@ class BrewerydbController < ApplicationController
 
     # need to find state_id from states table using state:
     # data['breweries'].first['locations'].first['region']
-    state_id = State.where('name' == data['breweries'].first['locations'].first['region'])
+    state_id = State.find_by(name: data['breweries'].first['locations'].first['region']).id
 
     beer = Beer.new({
       title: data['nameDisplay'],
@@ -142,32 +142,6 @@ class BrewerydbController < ApplicationController
     end
   end
 
-  def test
-    response = HTTParty.get('http://api.brewerydb.com/v2/beer/' + params[:beerId] + '?withBreweries=Y&key=' + ENV['API_KEY'] + '&format=json')
-    # turns response data into hash
-    data = response.parsed_response['data']
-    beer_hash = {}
-    content = {}
-
-    content['beer_id'] = data['id']
-    content['name'] = data['nameDisplay']
-    content['abv'] = data['abv']
-    content['ibu'] = data['ibu']
-    content['isOrganic'] = data['isOrganic']
-    content['description'] = data['style']['description']
-    content['image'] = data['labels']['medium']
-    content['brewery_id'] = data['breweries'].first['id']
-    content['brewery_name'] = data['breweries'].first['name']
-    content['brewery_website'] = data['breweries'].first['website']
-    content['brewery_image'] = data['breweries'].first['images']['medium']
-    content['state'] = data['breweries'].first['locations'].first['region']
-
-    beer_hash['beer_id'] = content
-
-    render json: beer_hash
-  end
-
-
 private
 
   def set_brewery_db
@@ -176,7 +150,4 @@ private
     end
   end
 
-  # def beer_params
-  #   params.require(:beer).permit(:brewery_id, :beer_id, :votes, :state_id)
-  # end
 end
