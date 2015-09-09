@@ -1,21 +1,16 @@
 Rails.application.routes.draw do
 
-  resources :states, :beers
-
   get '/states' => 'states#index'
   get '/states/:id' => 'states#show'
 
-  get '/beers' => 'beers#index'
-  get '/beers/:id' => 'beers#show'
-  post '/beers' => 'beers#create'
-  put '/beers/:id' => 'beers#update'
+  get '/beers/:beerId' => 'beers#show_beer'
+  put '/beers/:beerId' => 'beers#increment_vote'
+  get '/beers/state/:stateId' => 'beers#show_top_beers'
 
   get '/brewerydb/state/:state' => 'brewerydb#state_breweries'
   get '/brewerydb/city/:city' => 'brewerydb#city_breweries'
   get '/brewerydb/state/:state/beers' => 'brewerydb#state_beers'
   get '/brewerydb/city/:city/beers' => 'brewerydb#city_beers'
-
-  get '/brewerydb/test/:beerId' => 'brewerydb#test'
   post '/brewerydb/:beerId' => 'brewerydb#create_voted_beer'
 
 end
