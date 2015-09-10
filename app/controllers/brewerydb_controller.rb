@@ -51,11 +51,15 @@ class BrewerydbController < ApplicationController
     # adds info for each beer to beer_arr with id as key
     state_arr.each do |b|
       beers = brewery_db.brewery(b).beers
+      brewery = brewery_db.breweries.find(b)
+
       beers.each do |i|
         content = {}
         content['name'] = i.name_display
         content['id'] = i.id
         content['breweryId'] = b
+        content['brewery_name'] = brewery.name
+        content['brewery_website'] = brewery.website
         content['abv'] = i.abv
         content['ibu'] = i.ibu
         content['isOrganic'] = i.isOrganic
@@ -81,12 +85,16 @@ class BrewerydbController < ApplicationController
     # adds info for each beer to beer_arr
     city_arr.each do |b|
       beers = brewery_db.brewery(b).beers
+      brewery = brewery_db.breweries.find(b)
+
       beers.each do |i|
         content = {}
         content['name'] = i.name_display
         content['id'] = i.id
         content['abv'] = i.abv
         content['breweryId'] = b
+        content['brewery_name'] = brewery.name
+        content['brewery_website'] = brewery.website
         content['ibu'] = i.ibu
         content['isOrganic'] = i.isOrganic
         content['description'] = i.description
@@ -111,7 +119,7 @@ class BrewerydbController < ApplicationController
       title: data['nameDisplay'],
       beer_id: data['id'],
       brewery_id: data['breweries'].first['id'],
-      state_id: state_id, #FIX ME (SEE ABOVE)
+      state_id: state_id,
       votes: 1
     })
 
