@@ -7,52 +7,51 @@ class BrewerydbController < ApplicationController
   def state_breweries
     state_breweries = brewery_db.locations.all(region: params[:state])
 
-    state_hash = {}
+    state_arr = []
 
     state_breweries.each do |b|
       content = {}
       content['name'] = b.brewery.name
       content['id'] = b.breweryId
       content['website'] = b.brewery.website
-      state_hash[b.breweryId] = content
+      state_arr << content
     end
 
-    render json: state_hash
+    render json: state_arr
   end
 
   # show all breweries by location: city
   def city_breweries
     city_breweries = brewery_db.locations.all(locality: params[:city])
 
-    city_hash = {}
+    city_arr = []
 
     city_breweries.each do |b|
       content = {}
       content['name'] = b.brewery.name
       content['id'] = b.breweryId
       content['website'] = b.brewery.website
-      city_hash[b.breweryId] = content
+      city_arr << content
     end
 
-    render json: city_hash
+    render json: city_arr
   end
 
   # show all beers by location: state
   def state_beers
     state_breweries = brewery_db.locations.all(region: params[:state])
     state_arr = []
-    beer_hash = {}
+    beer_arr = []
 
     # adds each brewery id to state_arr
     state_breweries.each do |b|
       state_arr << b.breweryId
     end
 
-    # adds info for each beer to beer_hash with id as key
+    # adds info for each beer to beer_arr with id as key
     state_arr.each do |b|
       beers = brewery_db.brewery(b).beers
       beers.each do |i|
-        beer_hash[i.id] = {}
         content = {}
         content['name'] = i.name_display
         content['id'] = i.id
@@ -61,29 +60,28 @@ class BrewerydbController < ApplicationController
         content['ibu'] = i.ibu
         content['isOrganic'] = i.isOrganic
         content['description'] = i.description
-        beer_hash[i.id] = content
+        beer_arr << content
       end
     end
 
-    render json: beer_hash
+    render json: beer_arr
   end
 
   # show all beers by location: city
   def city_beers
     city_breweries = brewery_db.locations.all(locality: params[:city])
     city_arr = []
-    beer_hash = {}
+    beer_arr = []
 
     # adds each brewery id to city_arr
     city_breweries.each do |b|
       city_arr << b.breweryId
     end
 
-    # adds info for each beer to beer_hash with id as key
+    # adds info for each beer to beer_arr
     city_arr.each do |b|
       beers = brewery_db.brewery(b).beers
       beers.each do |i|
-        beer_hash[i.id] = {}
         content = {}
         content['name'] = i.name_display
         content['id'] = i.id
@@ -92,11 +90,11 @@ class BrewerydbController < ApplicationController
         content['ibu'] = i.ibu
         content['isOrganic'] = i.isOrganic
         content['description'] = i.description
-        beer_hash[i.id] = content
+        beer_arr << content
       end
     end
 
-    render json: beer_hash
+    render json: beer_arr
   end
 
   def create_voted_beer
