@@ -29,7 +29,7 @@ module Project4Api
         # WARNING: Allow ALL cross site scripting from ALL domains
         origins '*'
         # WARNING: Allow ALL HTTP method
-        resource '*', :headers => :any, :methods => [:get, :post,:delete, :options]
+        resource '*', :headers => :any, :methods => [:get, :post,:delete, :options, :put]
       end
     end
 
