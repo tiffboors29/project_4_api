@@ -24,7 +24,7 @@ module Project4Api
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-  end
+
 
   # Add Rack::Cors as middleware
     # WARNING: Allow ALL cross site scripting
@@ -36,4 +36,5 @@ module Project4Api
         resource '*', :headers => :any, :methods => [:get, :post, :delete, :options, :put]
       end
     end
+  end
 end
