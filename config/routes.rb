@@ -13,7 +13,6 @@ Rails.application.routes.draw do
   get '/brewerydb/city/:city/beers' => 'brewerydb#city_beers'
   post '/brewerydb/:beerId' => 'brewerydb#create_voted_beer'
 
-  resources :states, :beers, :brewerydb
 
 end
   # The priority is based upon order of creation: first created -> highest priority.
