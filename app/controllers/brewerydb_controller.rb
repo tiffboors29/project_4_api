@@ -136,7 +136,6 @@ class BrewerydbController < ApplicationController
     content['brewery_id'] = data['breweries'].first['id']
     content['brewery_name'] = data['breweries'].first['name']
     content['brewery_website'] = data['breweries'].first['website']
-    content['brewery_image'] = data['breweries'].first['images']['medium']
     content['state'] = data['breweries'].first['locations'].first['region']
     display_beer['beer_id'] = content
 
