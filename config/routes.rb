@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  root :to => 'states#index'
   get '/states' => 'states#index'
   get '/states/:id' => 'states#show'
 
