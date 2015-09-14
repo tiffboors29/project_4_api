@@ -7,14 +7,17 @@ class BreweryDb
       @parsed_data = parse
     end
 
+    # sends request to breweryDB API
     def request
       HTTParty.get('http://api.brewerydb.com/v2/beer/' + @beer_id + '?withBreweries=Y&key=' + ENV['API_KEY'] + '&format=json')
     end
 
+    # parse API response data into hash
     def parse
       @response.parsed_response['data']
     end
 
+    # build hash to desplay beer info
     def results
       data = @parsed_data
       hash = {}
