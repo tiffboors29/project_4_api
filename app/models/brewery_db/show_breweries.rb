@@ -12,8 +12,8 @@ class BreweryDb
     def results
       if (@location_type == 'state')
         breweries = brewery_db.locations.all(region: @location)
-      elsif (@location_type == 'city')
-        breweries = brewery_db.locations.all(locality: @location)
+      elsif (@location_type == 'postal')
+        breweries = brewery_db.locations.all(postalCode: @location)
       end
 
       brewery_arr = []

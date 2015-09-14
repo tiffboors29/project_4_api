@@ -8,9 +8,9 @@ class BrewerydbController < ApplicationController
     render json: BreweryDb::ShowBreweries.new('state', params[:state]).results
   end
 
-  # show all breweries by location: city
-  def city_breweries
-    render json: BreweryDb::ShowBreweries.new('city', params[:city]).results
+  # show all breweries by location: postalCode
+  def postal_breweries
+    render json: BreweryDb::ShowBreweries.new('postal', params[:postal]).results
   end
 
   # show all beers by location: state
@@ -18,9 +18,9 @@ class BrewerydbController < ApplicationController
     render json: BreweryDb::ShowBeers.new('state', params[:state]).results
   end
 
-  # show all beers by location: city
-  def city_beers
-    render json: BreweryDb::ShowBeers.new('city', params[:city]).results
+  # show all beers by location: postalCode
+  def postal_beers
+    render json: BreweryDb::ShowBeers.new('postal', params[:postal]).results
   end
 
   # insert new beer into beer table with 1 vote

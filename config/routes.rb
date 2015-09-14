@@ -11,9 +11,9 @@ Rails.application.routes.draw do
   get '/beers/state/:stateId' => 'beers#show_top_beers'
 
   get '/brewerydb/state/:state' => 'brewerydb#state_breweries'
-  get '/brewerydb/city/:city' => 'brewerydb#city_breweries'
+  get '/brewerydb/postal/:postal' => 'brewerydb#postal_breweries'
   get '/brewerydb/state/:state/beers' => 'brewerydb#state_beers'
-  get '/brewerydb/city/:city/beers' => 'brewerydb#city_beers'
+  get '/brewerydb/postal/:postal/beers' => 'brewerydb#postal_beers'
   post '/brewerydb/:beerId' => 'brewerydb#create_voted_beer'
 
 

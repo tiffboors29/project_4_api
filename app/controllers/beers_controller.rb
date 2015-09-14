@@ -2,7 +2,8 @@ class BeersController < ApplicationController
   # incrementally add's votes & shows specific beer
   def increment_vote
     beer = Beer.find_by(beer_id: params[:beerId])
-    beer.update({votes: (beer.votes + 1)})
+    new_votes = beer.votes + 1
+    beer.update(votes: new_votes)
     num_votes = beer.votes
     if beer.save
       render json: BreweryDb::ShowVotes.new(params[:beerId], num_votes).results
@@ -18,12 +19,7 @@ class BeersController < ApplicationController
 
   # check if beer exists in beer table
   def check_ranked_beer
-    if Beer.find_by(beer_id: params[:beerId])
-      exists = true
-    else
-      exists = false
-    end
-    render json: exists
+    render json: Beer.find_by(beer_id: params[:beerId])
   end
 
   # get state's top 10 voted beers & show information
