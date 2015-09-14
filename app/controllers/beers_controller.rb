@@ -14,7 +14,7 @@ class BeersController < ApplicationController
 
   # show individual beer with brewerydb API info.
   def show_beer
-    render json: BreweryDb::Show.new(params[:beerId]).results
+    render json: BreweryDb::ShowBeer.new(params[:beerId]).results
   end
 
   # get state's top 10 voted beers & show information
