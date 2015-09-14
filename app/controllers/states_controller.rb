@@ -1,5 +1,4 @@
 class StatesController < ApplicationController
-
   def index
     render json: State.all
   end
@@ -7,5 +6,4 @@ class StatesController < ApplicationController
   def show
     render json: State.find(params[:id])
   end
-
 end

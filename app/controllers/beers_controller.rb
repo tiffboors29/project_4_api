@@ -1,9 +1,8 @@
 class BeersController < ApplicationController
-
   # incrementally add's votes & shows specific beer
   def increment_vote
     beer = Beer.find_by(beer_id: params[:beerId])
-    beer.update( votes: beer.votes + 1 )
+    beer.update(votes: beer.votes + 1)
     num_votes = beer.votes
     if beer.save
       render json: BreweryDb::ShowVotes.new(params[:beerId], num_votes).results
@@ -22,12 +21,9 @@ class BeersController < ApplicationController
     voted_beers = Beer.where(state_id: params[:stateId])
     ordered_ten = voted_beers.sort_by { |b| b['votes'] }.reverse.slice(0, 10)
     top_arr = []
-
     ordered_ten.each do |b|
       top_arr << BreweryDb::ShowVotes.new(b.beer_id, b.votes).results
     end
-
     render json: top_arr
   end
-
 end
