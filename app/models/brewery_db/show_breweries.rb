@@ -8,6 +8,7 @@ class BreweryDb
       @brewery_db = set_brewery_db
     end
 
+    # build hash to desplay brewery info
     def results
       if (@location_type == 'state')
         breweries = brewery_db.locations.all(region: @location)
@@ -28,6 +29,7 @@ class BreweryDb
     end
 
     private
+    # configuration for brewery_db gem
     def set_brewery_db
       @brewery_db = BreweryDB::Client.new do |config|
         config.api_key = ENV['API_KEY']
