@@ -2,7 +2,7 @@ class BeersController < ApplicationController
   # incrementally add's votes & shows specific beer
   def increment_vote
     beer = Beer.find_by(beer_id: params[:beerId])
-    beer.update(votes: beer.votes + 1)
+    beer.update({votes: (beer.votes + 1)})
     num_votes = beer.votes
     if beer.save
       render json: BreweryDb::ShowVotes.new(params[:beerId], num_votes).results
