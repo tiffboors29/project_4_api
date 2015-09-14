@@ -16,6 +16,16 @@ class BeersController < ApplicationController
     render json: BreweryDb::ShowBeer.new(params[:beerId]).results
   end
 
+  # check if beer exists in beer table
+  def check_ranked_beer
+    if Beer.find_by(beer_id: params[:beerId])
+      exists = true
+    else
+      exists = false
+    end
+    render json: exists
+  end
+
   # get state's top 10 voted beers & show information
   def show_top_beers
     voted_beers = Beer.where(state_id: params[:stateId])

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/states/:id' => 'states#show'
 
   get '/beers/:beerId' => 'beers#show_beer'
+  get '/beers/ranked/:beerId' => 'beers#check_ranked_beer'
   put '/beers/vote/:beerId' => 'beers#increment_vote'
   get '/beers/state/:stateId' => 'beers#show_top_beers'
 
