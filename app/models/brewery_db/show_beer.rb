@@ -1,5 +1,5 @@
 class BreweryDb
-  class Show
+  class ShowBeer
 
     def initialize(beerId)
       @beer_id = beerId
