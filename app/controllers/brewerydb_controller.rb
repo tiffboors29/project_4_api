@@ -5,104 +5,81 @@ class BrewerydbController < ApplicationController
 
   # show all breweries by location: state
   def state_breweries
-    state_breweries = brewery_db.locations.all(region: params[:state])
-
-    state_arr = []
-
-    state_breweries.each do |b|
-      content = {}
-      content['name'] = b.brewery.name
-      content['id'] = b.breweryId
-      content['website'] = b.brewery.website
-      state_arr << content
-    end
-
-    render json: state_arr
+    render json: BreweryDb::ShowBreweries.new('state', params[:state]).results
   end
 
   # show all breweries by location: city
   def city_breweries
-    city_breweries = brewery_db.locations.all(locality: params[:city])
-
-    city_arr = []
-
-    city_breweries.each do |b|
-      content = {}
-      content['name'] = b.brewery.name
-      content['id'] = b.breweryId
-      content['website'] = b.brewery.website
-      city_arr << content
-    end
-
-    render json: city_arr
+    render json: BreweryDb::ShowBreweries.new('city', params[:city]).results
   end
 
   # show all beers by location: state
   def state_beers
-    state_breweries = brewery_db.locations.all(region: params[:state])
-    state_arr = []
-    beer_arr = []
+    # state_breweries = brewery_db.locations.all(region: params[:state])
+    # state_arr = []
+    # beer_arr = []
 
-    # adds each brewery id to state_arr
-    state_breweries.each do |b|
-      state_arr << b.breweryId
-    end
+    # # adds each brewery id to state_arr
+    # state_breweries.each do |b|
+    #   state_arr << b.breweryId
+    # end
 
-    # adds info for each beer to beer_arr with id as key
-    state_arr.each do |b|
-      beers = brewery_db.brewery(b).beers
-      brewery = brewery_db.breweries.find(b)
+    # # adds info for each beer to beer_arr with id as key
+    # state_arr.each do |b|
+    #   beers = brewery_db.brewery(b).beers
+    #   brewery = brewery_db.breweries.find(b)
 
-      beers.each do |i|
-        content = {}
-        content['name'] = i.name_display
-        content['id'] = i.id
-        content['breweryId'] = b
-        content['brewery_name'] = brewery.name
-        content['brewery_website'] = brewery.website
-        content['abv'] = i.abv
-        content['ibu'] = i.ibu
-        content['isOrganic'] = i.isOrganic
-        content['description'] = i.description
-        beer_arr << content
-      end
-    end
+    #   beers.each do |i|
+    #     content = {}
+    #     content['name'] = i.name_display
+    #     content['id'] = i.id
+    #     content['breweryId'] = b
+    #     content['brewery_name'] = brewery.name
+    #     content['brewery_website'] = brewery.website
+    #     content['abv'] = i.abv
+    #     content['ibu'] = i.ibu
+    #     content['isOrganic'] = i.isOrganic
+    #     content['description'] = i.description
+    #     beer_arr << content
+    #   end
+    # end
 
-    render json: beer_arr
+    render json: BreweryDb::ShowBeers.new('state', params[:state]).results
   end
 
   # show all beers by location: city
   def city_beers
-    city_breweries = brewery_db.locations.all(locality: params[:city])
-    city_arr = []
-    beer_arr = []
+    # city_breweries = brewery_db.locations.all(locality: params[:city])
+    # city_arr = []
+    # beer_arr = []
 
-    # adds each brewery id to city_arr
-    city_breweries.each do |b|
-      city_arr << b.breweryId
-    end
+    # # adds each brewery id to city_arr
+    # city_breweries.each do |b|
+    #   city_arr << b.breweryId
+    # end
 
-    # adds info for each beer to beer_arr
-    city_arr.each do |b|
-      beers = brewery_db.brewery(b).beers
-      brewery = brewery_db.breweries.find(b)
+    # # adds info for each beer to beer_arr
+    # city_arr.each do |b|
+    #   beers = brewery_db.brewery(b).beers
+    #   brewery = brewery_db.breweries.find(b)
 
-      beers.each do |i|
-        content = {}
-        content['name'] = i.name_display
-        content['id'] = i.id
-        content['abv'] = i.abv
-        content['breweryId'] = b
-        content['brewery_name'] = brewery.name
-        content['brewery_website'] = brewery.website
-        content['ibu'] = i.ibu
-        content['isOrganic'] = i.isOrganic
-        content['description'] = i.description
-        beer_arr << content
-      end
-    end
+    #   beers.each do |i|
+    #     content = {}
+    #     content['name'] = i.name_display
+    #     content['id'] = i.id
+    #     content['abv'] = i.abv
+    #     content['breweryId'] = b
+    #     content['brewery_name'] = brewery.name
+    #     content['brewery_website'] = brewery.website
+    #     content['ibu'] = i.ibu
+    #     content['isOrganic'] = i.isOrganic
+    #     content['description'] = i.description
+    #     beer_arr << content
+    #   end
+    # end
 
-    render json: beer_arr
+    # render json: beer_arr
+    render json: BreweryDb::ShowBeers.new('city', params[:city]).results
   end
 
   def create_voted_beer
