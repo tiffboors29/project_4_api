@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20150909183627) do
     t.string   "beer_id"
   end
 
+  add_index "beers", ["beer_id"], name: "index_beers_on_beer_id", unique: true, using: :btree
+
   create_table "states", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
